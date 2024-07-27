@@ -3,9 +3,7 @@ import ChatPage from "./pages/ChatPage";
 import HomePage from "./pages/HomePage";
 const App = () => {
   return (
-    <div>App
-
-      <button className="btn">Button</button>
+    <div>
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/chats" element={<ChatPage />} />

@@ -1,11 +1,13 @@
 import React from 'react'
 import Login from '../components/Authentication/Login'
+import Regsiter from '../components/Authentication/Register'
 const HomePage = () => {
   return (
-    <div className="h-screen w-full flex justify-center items-center">
+    <div className="h-screen w-full flex justify-center mt-10"> 
+    <div>
       <div role="tablist" className="tabs tabs-lifted">
         <input type="radio" name="my_tabs_2" role="tab" className="tab" aria-label="Login" />
-        <div role="tabpanel" className="tab-content bg-base-100 border-base-300 rounded-box p-6 h-72 w-72">
+        <div role="tabpanel" className="tab-content bg-base-100 border-base-300 rounded-box p-6 h-92 w-72">
           <Login />
         </div>
 
@@ -16,12 +18,13 @@ const HomePage = () => {
           className="tab"
           aria-label="Sign Up"
           defaultChecked />
-        <div role="tabpanel" className="tab-content bg-base-100 border-base-300 rounded-box p-6 h-72 w-72">
-          Tab content 2
+        <div role="tabpanel" className="tab-content bg-base-100 border-base-300 rounded-box p-6 h-92 w-72">
+          <Regsiter/>
         </div>
 
 
       </div>
+    </div> 
     </div>
   )
 }
