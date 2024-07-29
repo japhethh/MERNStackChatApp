@@ -1,8 +1,9 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { z } from 'zod';
-
+import axios from 'axios';
+import { UserContext } from '../../context/UserContext';
 // Custom validation for file upload
 const imageFileSchema = z
   .instanceof(File)
@@ -21,6 +22,14 @@ type FormField = z.infer<typeof schema>;
 
 const Register = () => {
   const [show, setShow] = useState<boolean>(false);
+  const [image, setImage] = useState<File | null>(null);
+
+  const context = useContext(UserContext);
+  if (!context) {
+    return null;
+  }
+
+  const {apiURL} = context;
 
   const { handleSubmit, register, formState: { errors } } = useForm<FormField>({
     resolver: zodResolver(schema)
@@ -28,6 +37,21 @@ const Register = () => {
 
   const onSubmit: SubmitHandler<FormField> = async (data) => {
     console.log(data);
+    const formData = new FormData();
+    formData.append("name", data.name)
+    formData.append("email", data.email)
+    formData.append("password", data.password)
+    formData.append("confirmpassword", data.confirmpassword)
+    if (image) {
+      formData.append("image", image)
+    }
+
+    try {
+      const response = await axios.post(`${apiURL}/api/user/register`,formData);
+      
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   const handleClick = () => setShow(!show);

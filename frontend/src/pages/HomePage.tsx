@@ -7,7 +7,7 @@ const HomePage = () => {
     <div>
       <div role="tablist" className="tabs tabs-lifted">
         <input type="radio" name="my_tabs_2" role="tab" className="tab" aria-label="Login" />
-        <div role="tabpanel" className="tab-content bg-base-100 border-base-300 rounded-box p-6 h-92 w-72">
+        <div role="tabpanel" className="tab-content bg-base-100 border-base-300 rounded-box p-6 h-92 w-92">
           <Login />
         </div>
 
@@ -18,11 +18,9 @@ const HomePage = () => {
           className="tab"
           aria-label="Sign Up"
           defaultChecked />
-        <div role="tabpanel" className="tab-content bg-base-100 border-base-300 rounded-box p-6 h-92 w-72">
+        <div role="tabpanel" className="tab-content bg-base-100 border-base-300 rounded-box p-6 h-92 w-92">
           <Regsiter/>
         </div>
-
-
       </div>
     </div> 
     </div>

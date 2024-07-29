@@ -1,9 +1,21 @@
 import express from "express";
-import { loginUser,registerUser } from "../controllers/userController.js";
+import multer from "multer";
+import {
+  loginUser,
+  registerUser,
+  authUser,
+} from "../controllers/userController.js";
 
 const userRouter = express.Router();
-
-userRouter.post("/login", loginUser);
-userRouter.post("/register", registerUser);
+// Configure Multer for file uploads
+const storage = multer.diskStorage({
+  destination: "./uploads",
+  filename: (req, file, cb) => {
+    cb(null, `${file.originalname}`);
+  },
+});
+const upload = multer({ storage: storage });
+userRouter.post("/login", authUser);
+userRouter.post("/register", upload.single("image"), registerUser);
 
 export default userRouter;

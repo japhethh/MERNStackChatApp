@@ -4,6 +4,7 @@ import cors from "cors";
 import { connectDB } from "./config/db.js";
 import userRouter from './routes/userRoute.js'
 import colors from 'colors'
+import {notFound,errorHandler} from './middleware/errorMiddleware.js'
 const app = express();
 import "dotenv/config";
 app.use(cors());
@@ -25,7 +26,8 @@ app.get("/api/chat/:id", (req, res) => {
 });
 
 app.use("/api/user",userRouter)
-
+app.use(notFound)
+app.use(errorHandler)
 app.listen(process.env.PORT, () => {
   console.log(`Server Started on Port http://localhost:${process.env.PORT}`.yellow.bold);
 });
