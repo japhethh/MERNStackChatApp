@@ -3,30 +3,35 @@ import asyncHandler from "express-async-handler";
 import cloudinary from "../utils/cloudinary.js";
 import jwt from "jsonwebtoken";
 import fs from "fs";
+
+// Register User
 const registerUser = asyncHandler(async (req, res) => {
   const { name, email, password } = req.body;
 
+  // Check if all fields are provided
   if (!name || !email || !password) {
     return res
       .status(400)
       .json({ success: false, message: "Please Enter all the fields" });
   }
 
+  // Check if the user already exists
   const userExists = await userModel.findOne({ email });
   if (userExists) {
-    return res.status.json({
+    return res.status(400).json({
       success: false,
-      message: "User is exist already",
+      message: "User already exists",
     });
   }
 
   let picURL = "";
   if (req.file) {
     try {
+      // Upload profile picture to Cloudinary
       const result = await cloudinary.uploader.upload(req.file.path, {
         folder: "profile_images",
       });
-      fs.unlinkSync(req.file.path);
+      fs.unlinkSync(req.file.path); // Remove file from local storage
       picURL = result.secure_url;
     } catch (error) {
       return res.status(500).json({
@@ -36,17 +41,19 @@ const registerUser = asyncHandler(async (req, res) => {
     }
   }
 
+  // Create new user
   const user = new userModel({
-    name: name,
-    email: email,
-    password: password,
+    name,
+    email,
+    password,
     pic: picURL,
   });
 
   await user.save();
 
+  // Respond with user data if user was successfully created
   if (user) {
-    res.status(200).json({
+    res.status(201).json({
       success: true,
       data: {
         _id: user._id,
@@ -57,25 +64,17 @@ const registerUser = asyncHandler(async (req, res) => {
       },
     });
   } else {
-    res.status(400).json({ success: false, message: "User not found" });
+    res.status(400).json({ success: false, message: "User not created" });
   }
 });
 
-const loginUser = async (req, res) => {
-  const { name, email, password } = req.body;
-};
-
-const createToken = (id) => {
-  return jwt.sign({ id }, process.env.JWT_SECRET, {
-    expiresIn: "30d",
-  });
-};
-
+// authUser User
 const authUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
 
   const user = await userModel.findOne({ email });
 
+  // Check if user exists and password is correct
   if (user && (await user.matchPassword(password))) {
     res.json({
       success: true,
@@ -92,7 +91,15 @@ const authUser = asyncHandler(async (req, res) => {
     throw new Error("Invalid Email or Password");
   }
 });
-// Api Users
+
+// Generate JWT token
+const createToken = (id) => {
+  return jwt.sign({ id }, process.env.JWT_SECRET, {
+    expiresIn: "30d",
+  });
+};
+
+// Get all users except the current user
 const allUsers = asyncHandler(async (req, res) => {
   const keyword = req.query.search
     ? {
@@ -103,13 +110,12 @@ const allUsers = asyncHandler(async (req, res) => {
       }
     : {};
 
+  // Find users based on keyword and exclude current user
   const users = await userModel
     .find(keyword)
-    .find({ _id: { $ne: req.user.id } });
-  res.send(users);
+    .find({ _id: { $ne: req.user._id } });
 
-  console.log(keyword);
-  res.status(200).json({ success: false, message: keyword });
+  res.status(200).json(users);
 });
 
-export { registerUser, loginUser, authUser, allUsers };
+export { registerUser, authUser, allUsers };
