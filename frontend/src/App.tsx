@@ -1,9 +1,12 @@
 import { Routes, Route } from "react-router-dom"
 import ChatPage from "./pages/ChatPage";
 import HomePage from "./pages/HomePage";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 const App = () => {
   return (
     <div>
+      <ToastContainer />
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/chats" element={<ChatPage />} />
