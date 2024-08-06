@@ -5,7 +5,7 @@ import {
   authUser,
   allUsers,
 } from "../controllers/userController.js";
-import {protect} from "../middleware/authMiddleware.js";
+import { protect } from "../middleware/authMiddleware.js";
 
 const userRouter = express.Router();
 
@@ -20,6 +20,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 userRouter.post("/login", authUser);
+
 userRouter
   .route("/")
   .post(upload.single("image"), registerUser)

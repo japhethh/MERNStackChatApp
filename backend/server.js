@@ -2,9 +2,10 @@ import express from "express";
 import { chats } from "./data/data.js";
 import cors from "cors";
 import { connectDB } from "./config/db.js";
-import userRouter from './routes/userRoute.js'
-import colors from 'colors'
-import {notFound,errorHandler} from './middleware/errorMiddleware.js'
+import userRouter from "./routes/userRoute.js";
+import chatRouter from "./routes/chatRoute.js";
+import colors from "colors";
+import { notFound, errorHandler } from "./middleware/errorMiddleware.js";
 const app = express();
 import "dotenv/config";
 app.use(cors());
@@ -25,9 +26,12 @@ app.get("/api/chat/:id", (req, res) => {
   res.send(singleChat);
 });
 
-app.use("/api/user",userRouter)
-app.use(notFound)
-app.use(errorHandler)
+app.use("/api/user", userRouter);
+app.use("/api/chat", chatRouter);
+app.use(notFound);
+app.use(errorHandler);
 app.listen(process.env.PORT, () => {
-  console.log(`Server Started on Port http://localhost:${process.env.PORT}`.yellow.bold);
+  console.log(
+    `Server Started on Port http://localhost:${process.env.PORT}`.yellow.bold
+  );
 });
