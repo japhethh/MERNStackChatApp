@@ -208,13 +208,45 @@ const addToGroup = asyncHandler(async (req, res) => {
         new: true,
       }
     )
-    .populate("users", "-password");
+    .populate("users", "-password")
+    .populate("groupAdmin", "-password");
 
   if (!added) {
-    res.status(400);
+    res.status(404);
     throw new Erorr("Chat Not Found");
   } else {
     res.json(added);
   }
 });
-export { accesschat, fetchChats, createGroupChat, renameGroup, addToGroup };
+
+const removeGroup = asyncHandler(async (req, res) => {
+  const { chatId, userId } = req.body;
+
+  const removed = await chatModel.findByIdAndUpdate(
+    chatId,
+    {
+      $pull: {
+        users: userId,
+      },
+    },
+    {
+      new: true,
+    }
+  );
+
+  if (!removed) {
+    res.status(404);
+    throw new Error("Chat Not Found");
+  } else {
+    res.json(removed);
+  }
+});
+
+export {
+  accesschat,
+  fetchChats,
+  createGroupChat,
+  renameGroup,
+  addToGroup,
+  removeGroup,
+};
