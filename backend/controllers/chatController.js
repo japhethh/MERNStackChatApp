@@ -112,4 +112,63 @@ const accesschat = asyncHandler(async (req, res) => {
   }
 });
 
-export { accesschat };
+const fetchChats = asyncHandler(async (req, res) => {
+  // $elemMatch don't even care if the chatModel id is not getting the important for him is users has existing id in the users or something
+  try {
+    chatModel
+      .find({ users: { $elemMatch: { $eq: req.user._id } } })
+      .populate("users", "-password")
+      .populate("groupAdmin", "-password")
+      .populate("latestMessage")
+      .sort({ updateAt: -1 })
+      .then(async (results) => {
+        results = await userModel.populate(results, {
+          path: "latestMessage.sender",
+          sender: "name pic email",
+        });
+        res.status(200).send(results);
+      });
+  } catch (error) {
+    res.status(400);
+  }
+});
+
+const createGroupChat = asyncHandler(async (req, res) => {
+
+
+  if (!req.body.users || !req.body.name) {
+    return res.status(400).send({ message: "Please Fill all the fields" });
+  }
+  var users = JSON.parse(req.body.users);
+
+  if (users.length < 2) {
+    return res
+      .status(400)
+      .send("More than 2 users are required to form a group chat");
+  }
+
+  users.push(req.user);
+
+  try {
+    const groupChat = await chatModel.create({
+      chatName: req.body.name,
+      users: users,
+      isGroupChat: true,
+      groupAdmin: req.user,
+    });
+
+    const fullGroupChat = await chatModel
+      .findOne({
+        _id: groupChat._id,
+      })
+      .populate("users", "-password")
+      .populate("groupAdmin", "-password");
+
+    res.status(201).json(fullGroupChat);
+  } catch (error) {
+    res.status(400);
+    throw new Error(error.message);
+  }
+});
+
+export { accesschat, fetchChats, createGroupChat };
