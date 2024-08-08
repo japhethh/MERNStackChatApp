@@ -6,6 +6,7 @@ import {
   accesschat,
   fetchChats,
   createGroupChat,
+  renameGroup,
 } from "../controllers/chatController.js";
 
 const chatRouter = express.Router();
@@ -22,7 +23,7 @@ const upload = multer({ storage: storage });
 chatRouter.route("/").post(protect, accesschat);
 chatRouter.route("/").get(protect, fetchChats);
 chatRouter.route("/group").post(protect, createGroupChat);
-// chatRouter.route("/rename").put(protect, renameGroup);
+chatRouter.route("/rename").put(protect, renameGroup);
 // chatRouter.route("groupRemove").put(protect, removeFromGroup);
 // chatRouter.route("groupAdd").put(protect, addToGroup);
 
