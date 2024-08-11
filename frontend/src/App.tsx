@@ -3,10 +3,11 @@ import ChatPage from "./pages/ChatPage";
 import HomePage from "./pages/HomePage";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+
 const App = () => {
   return (
     <div>
-      <ToastContainer />
+      <ToastContainer autoClose={2000} />
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/chats" element={<ChatPage />} />

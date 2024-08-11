@@ -1,56 +1,26 @@
-import axios from 'axios'
-import React, { useEffect, useState } from 'react'
 
+import { useContext } from "react"
+import { ChatContext } from "../context/ChatProvider"
+import MyChats from "../components/MyChats";
+
+import SideDrawer from "../miscellaneous/SideDrawer";
+import ChatBox from "../components/ChatBox";
 const ChatPage = () => {
-  interface User {
-    name: string;
-    email: string;
-  }
-  interface Chat {
-    isGroupchat: boolean;
-    users: User[];
-    _id: string;
-    chatName: string;
-    groupAdmin?: User;
+
+  const context = useContext(ChatContext);
+  if (!context) {
+    return null;
   }
 
-
-  const [chat, setChat] = useState<Chat[]>([]);
-
-
-  useEffect(() => {
-    fetchChats();
-  }, [])
-
-  const fetchChats = async () => {
-    try {
-      const response = await axios.get("http://localhost:4000/api/chats");
-      setChat(response.data)
-      console.log(response.data);
-    } catch (error) {
-      console.log(error)
-    }
-
-  }
-
-
+  const { user } = context;
 
   return (
-    <div>
-      {chat.map((item, index) => (
-        <div key={index}>
-          <div>{item.chatName}</div>
-          <p>{item.isGroupchat ? "Group chat" : "Single Chat"}</p>
-          <ul>
-            {item.users.map((user,index) => (
-              <li key={index}> 
-              {user.name}
-              </li>
-            ))}
-          </ul>
-        </div>
-      ))}
-
+    <div className="w-full">
+      {user && <SideDrawer />}
+      <div className="flex justify-between w-full p-10 h-[96.5vh]"> 
+        {user && <MyChats />}
+        {user && <ChatBox />}
+      </div>
     </div>
   )
 }

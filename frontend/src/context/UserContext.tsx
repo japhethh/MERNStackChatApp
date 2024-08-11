@@ -10,7 +10,7 @@ interface Props {
   children: ReactNode;
 }
 
-const UserContextProvider: FC<Props> = ({ children }) => {
+const UserContextProvider = ({ children }:Props) => {
   const apiURL = "http://localhost:4000";
 
   const contextValue: UserContextValue = {
