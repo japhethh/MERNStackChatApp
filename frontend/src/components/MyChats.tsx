@@ -7,6 +7,7 @@ import { genSender } from '../config/ChatLogics';
 
 import axios from "axios";
 import ChatLoading from "./ChatLoading";
+import GroupChatModel from "../miscellaneous/GroupChatModel";
 
 const MyChats = () => {
   const [loggedUser, setLoggedUser] = useState<any>(null); // Set initial state to null
@@ -14,12 +15,12 @@ const MyChats = () => {
   if (!context) {
     return null; // Ensure context is available
   }
-  
+
   const usercontext = useContext(UserContext);
   if (!usercontext) {
     return null; // Ensure user context is available
   }
-  
+
   const { apiURL } = usercontext; // Extract apiURL from UserContext
   const { selectedChat, setSelectedChat, user, chats, setChats } = context; // Extract relevant values from ChatContext
 
@@ -48,11 +49,15 @@ const MyChats = () => {
 
   return (
     <div className="md:flex max-md:none rounded-md flex-col max-md:w-full w-[31%] bg-blue-200">
-      <div className="flex justify-between items-center px-2 pb-2 w-full font-sans text-xl py-2">
+
+      <div className="flex justify-between items-center px-2 pb-2 w-full font-sans py-2">
+
         <h1>My Chats</h1>
-        <button className="btn btn-md" type="button">
-          <span>New Group Chat</span> <IoIosAdd />
-        </button>
+        <GroupChatModel>
+          <button className="btn btn-md" onClick={() => document.getElementById('my_modal_2').showModal()} type="button">
+            <span>New Group Chat</span> <IoIosAdd />
+          </button>
+        </GroupChatModel>
       </div>
 
       <div className="flex flex-col p-3 bg-[#F8F8F8] w-full h-full overflow-y-hidden rounded-lg">
@@ -60,9 +65,8 @@ const MyChats = () => {
           <div className="overflow-y-scroll my-scroll-container flex flex-col gap-1">
             {chats.map((chat: any) => (
               <div
-                className={`cursor-pointer py-2 px-3 rounded-lg ${
-                  selectedChat?._id === chat._id ? "bg-teal-500 text-white" : "bg-gray-200 text-black"
-                }`} // Conditional class for selected chat
+                className={`cursor-pointer py-2 px-3 rounded-lg ${selectedChat?._id === chat._id ? "bg-teal-500 text-white" : "bg-gray-200 text-black"
+                  }`} // Conditional class for selected chat
                 key={chat._id}
                 onClick={() => setSelectedChat(chat)}
               >

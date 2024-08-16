@@ -5,7 +5,7 @@ interface User {
 }
 const UserListItem = ({ user, handlerFunction }: User) => {
   return (
-    <div className="p-2 flex gap-2  rounded-md" onClick={handlerFunction}>
+    <div className="p-2 flex gap-2 cursor-pointer rounded-md " onClick={handlerFunction}>
       <div className="avatar">
         <div className="w-10 rounded-full">
           <img alt={user.name} src={user.pic} />
