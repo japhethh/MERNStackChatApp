@@ -16,7 +16,7 @@ interface User {
   token: string;
   _id: string;
   pic: string;
-  // Add more fields as needed
+  // Add more fields as neededd
 }
 
 const SideDrawer = () => {
