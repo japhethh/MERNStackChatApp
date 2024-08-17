@@ -25,7 +25,7 @@ const accesschat = asyncHandler(async (req, res) => {
   // Like this
   // [
   //   {
-  //     "_id": "chat1",
+  //     "_id": "chat1d",
   //     "isGroupChat": false,
   //     "users": [
   //       {
