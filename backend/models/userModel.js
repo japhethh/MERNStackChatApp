@@ -9,7 +9,7 @@ const userSchema = mongoose.Schema(
     pic: {
       type: String,
       default:
-        "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.vecteezy.com%2Ffree-vector%2Fdefault-profile-picture&psig=AOvVaw34QXXjlz1-KYSBxjAHbvak&ust=1721844971276000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCJiEysrivYcDFQAAAAAdAAAAABAE",
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/2048px-Default_pfp.svg.png",
     },
   },
   { timestamps: true }

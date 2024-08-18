@@ -1,8 +1,9 @@
-import React, { useContext } from 'react'
+import  { useContext } from 'react'
 import { ChatContext } from '../context/ChatProvider'
 import { LuArrowLeft } from "react-icons/lu";
 import { genSender, genSenderFull } from '../config/ChatLogics';
 import ProfileModal from '../miscellaneous/ProfileModal'
+import UpdateGroupChatModel from '../miscellaneous/UpdateGroupChatModel';
 
 const SingleChat = ({ fetchAgain, setFetchAgain }: any) => {
 
@@ -32,7 +33,11 @@ const SingleChat = ({ fetchAgain, setFetchAgain }: any) => {
                 </>) : (
                 <>
                   {selectedChat.chatName.toUpperCase()}
+                  <UpdateGroupChatModel fetchAgain={fetchAgain} setFetchAgain={setFetchAgain}/>
                 </>)}
+            </div>
+            <div className="flex flex-col justify-end p-3 bg-[#E8E8E8] w-full h-full overflow-y-hidden">
+                  {/* Message Here */}
             </div>
           </> : (
             <div className="flex justify-center items-center h-full w-full">
