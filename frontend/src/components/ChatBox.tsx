@@ -1,7 +1,23 @@
+import { useContext } from "react"
+import { ChatContext } from "../context/ChatProvider"
+import SingleChat from "./SingleChat";
 
-const ChatBox = () => {
+const ChatBox = ({fetchAgain, setFetchAgain}:any) => {
+
+  const context = useContext(ChatContext);
+  if (!context) {
+    return null;
+  }
+
+  const { selectedChat } = context;
+
   return (
-    <div>ChatBox</div>
+    <div className={`${selectedChat ? "flex" : "hidden"}  md:flex max-md:w-full md:w-full h-screen  rounded-lg p-2 `}>
+
+      {/* Making Single Chat */}
+      <SingleChat fetchAgain={fetchAgain} setFetchAgain={setFetchAgain} />
+
+    </div>
   )
 }
 

@@ -9,7 +9,7 @@ import axios from "axios";
 import ChatLoading from "./ChatLoading";
 import GroupChatModel from "../miscellaneous/GroupChatModel";
 
-const MyChats = () => {
+const MyChats = ({fetchAgain}:any) => {
   const [loggedUser, setLoggedUser] = useState<any>(null); // Set initial state to null
   const context = useContext(ChatContext);
   if (!context) {
@@ -45,10 +45,10 @@ const MyChats = () => {
       setLoggedUser(JSON.parse(userInfo)); // Set loggedUser state from localStorage
       fetchChats(); // Fetch chats when the component mounts
     }
-  }, []); // Dependency array is empty, so it runs once on mount
+  }, [fetchAgain]); // Dependency array is empty, so it runs once on mount
 
   return (
-    <div className="md:flex max-md:none rounded-md flex-col max-md:w-full w-[31%] bg-blue-200">
+    <div className={`${selectedChat ? "hidden" : "flex"} md:flex max-md:none rounded-md flex-col max-md:w-full md:w-[50%] bg-blue-200`}>
 
       <div className="flex justify-between items-center px-2 pb-2 w-full font-sans py-2">
 

@@ -1,5 +1,5 @@
 
-import { useContext } from "react"
+import { useContext, useState } from "react"
 import { ChatContext } from "../context/ChatProvider"
 import MyChats from "../components/MyChats";
 
@@ -11,15 +11,20 @@ const ChatPage = () => {
   if (!context) {
     return null;
   }
-
   const { user } = context;
+
+  const [fetchAgain, setFetchAgain] = useState(false);
+
+
 
   return (
     <div className="w-full">
       {user && <SideDrawer />}
-      <div className="flex justify-between w-full p-10 h-[96.5vh]"> 
-        {user && <MyChats />}
-        {user && <ChatBox />}
+      <div className="flex justify-between w-full gap-2  p-2 md:p-10 h-[96.5vh]">
+        {user && (
+          <MyChats fetchAgain={fetchAgain} />
+        )}
+        {user && (<ChatBox fetchAgain={fetchAgain} setFetchAgain={setFetchAgain} />)}
       </div>
     </div>
   )

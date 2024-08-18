@@ -132,8 +132,6 @@ const GroupChatModel = ({ children }: Props) => {
 
   const handleClose = () => {
     setSelectedUsers([]);
-    setSearch("fuck");
-
   }
   return (
     <div>
