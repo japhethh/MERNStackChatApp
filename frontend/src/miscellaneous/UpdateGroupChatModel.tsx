@@ -4,6 +4,7 @@ import { ChatContext } from '../context/ChatProvider';
 import UserBadgeItem from '../components/UserAvatar/UserBadgeItem';
 import { UserContext } from '../context/UserContext';
 import axios from 'axios';
+import { toast } from 'react-toastify';
 const UpdateGroupChatModel = ({ fetchAgain, setFetchAgain }: any) => {
   const [groupChatName, setGroupChatName] = useState<string>("");
   const [search, setSearch] = useState();
@@ -29,23 +30,30 @@ const UpdateGroupChatModel = ({ fetchAgain, setFetchAgain }: any) => {
   }
   const handleRename = async () => {
     setLoading(true);
-    if(!groupChatName) return 
+    if (!groupChatName) return
+    setRenameLoading(true);
 
     try {
-      setRenameLoading(true);
 
       const config = {
-        headers:{
-          Authorization:`Bearer ${user?.token}`,
+        headers: {
+          Authorization: `Bearer ${user?.token}`,
         }
       }
 
-      const {data} = await axios.put(`${apiURL}/api/chat/rename`, {
-        
-      })
+      const { data } = await axios.put(`${apiURL}/api/chat/rename`, {
+        chatId: selectedChat._id,
+        chatName: groupChatName
+      }, config);
+
+      setSelectedChat(data);
+      setFetchAgain(!fetchAgain);
+      setRenameLoading(false);
+      setLoading(false);
     } catch (error) {
-      
+      toast.error("Error Occured!")
     }
+    setGroupChatName("")
   }
   const handleSearch = () => {
 
