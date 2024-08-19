@@ -48,7 +48,7 @@ const MyChats = ({fetchAgain}:any) => {
   }, [fetchAgain]); // Dependency array is empty, so it runs once on mount
 
   return (
-    <div className={`${selectedChat ? "hidden" : "flex"} md:flex max-md:none rounded-md flex-col max-md:w-full md:w-[50%] bg-blue-200`}>
+    <div className={`${selectedChat ? "hidden" : "flex"} md:flex max-md:none rounded-md flex-col max-md:w-full md:w-[50%] bg-white shadow-2xl	`}>
 
       <div className="flex justify-between items-center px-2 pb-2 w-full font-sans py-2">
 

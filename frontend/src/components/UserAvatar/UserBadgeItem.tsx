@@ -7,7 +7,7 @@ interface User {
 }
 const UserBadgeItem = ({ user, handlerFunction }: User) => {
   return (
-    <div className="badge badge-primary cursor-pointer flex justify-center items-center" onClick={handlerFunction}>
+    <div className="badge badge-info cursor-pointer flex justify-center items-center" onClick={handlerFunction}>
       <h1>
         {user.name}
       </h1>

@@ -12,7 +12,7 @@ const ChatBox = ({fetchAgain, setFetchAgain}:any) => {
   const { selectedChat } = context;
 
   return (
-    <div className={`${selectedChat ? "flex" : "hidden"} flex-col md:flex max-md:w-full md:w-full  rounded-lg p-2 `}>
+    <div className={`${selectedChat ? "flex" : "hidden"} flex-col md:flex max-md:w-full md:w-full shadow-2xl  rounded-lg p-2 `}>
 
       {/* Making Single Chat */}
       <SingleChat fetchAgain={fetchAgain} setFetchAgain={setFetchAgain} />
