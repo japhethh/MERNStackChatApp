@@ -4,6 +4,7 @@ import cors from "cors";
 import { connectDB } from "./config/db.js";
 import userRouter from "./routes/userRoute.js";
 import chatRouter from "./routes/chatRoute.js";
+import messageRouter from "./routes/messageRoute.js";
 import colors from "colors";
 import { notFound, errorHandler } from "./middleware/errorMiddleware.js";
 const app = express();
@@ -31,6 +32,7 @@ app.get("/api/chat/:id", (req, res) => {
 
 app.use("/api/user", userRouter);
 app.use("/api/chat", chatRouter);
+app.use("/api/message", messageRouter);
 app.use(notFound);
 app.use(errorHandler);
 app.listen(process.env.PORT, () => {
