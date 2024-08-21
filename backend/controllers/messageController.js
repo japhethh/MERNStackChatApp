@@ -1,5 +1,7 @@
 import asyncHandler from "express-async-handler";
 import messageModel from "../models/messageModel.js";
+import userModel from "../models/userModel.js";
+import chatModel from "../models/chatModel.js";
 
 const sendMessage = asyncHandler(async (req, res) => {
   const { content, chatId } = req.body;
@@ -15,12 +17,47 @@ const sendMessage = asyncHandler(async (req, res) => {
     chat: chatId,
   };
 
-try {
-  const message = await messageModel.create(newMessage);
+  try {
+    var message = await messageModel.create(newMessage);
 
-} catch (error) {
-  
-}
+    message = await message.populate("sender", "name pic");
+    message = await message.populate("chat");
+    message = await userModel.populate(message, {
+      path: "chat.users",
+      select: "name pic email",
+    });
+
+    await chatModel.findByIdAndUpdate(req.body.chatId, {
+      latestMessage: message._id,
+    });
+
+    res.json(message);
+  } catch (error) {
+    res.status(400);
+
+    throw new Error(error.message);
+  }
 });
 
-export { sendMessage };
+const allMessages = asyncHandler(async (req, res) => {
+  try {
+    var messages = await messageModel
+      .find({
+        chat: req.params.chatId,
+      })
+      .populate("sender", "name pic email")
+      .populate("chat");
+
+    messages = await userModel.populate(messages, {
+      path: "chat.users",
+      select: "name pic email",
+    });
+
+    res.json(messages);
+  } catch (error) {
+    res.status(400);
+    throw new Error(error.message);
+  }
+});
+
+export { sendMessage, allMessages };
