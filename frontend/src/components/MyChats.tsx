@@ -83,6 +83,7 @@ const MyChats = ({fetchAgain}:any) => {
           <ChatLoading /> // Show loading component if chats are not yet fetched
         )}
       </div>
+      
     </div>
   );
 };

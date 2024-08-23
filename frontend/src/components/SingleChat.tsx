@@ -29,6 +29,34 @@ const SingleChat = ({ fetchAgain, setFetchAgain }: any) => {
 
   const { apiURL } = userContext;
 
+  useEffect(() => {
+    // console.log(messages)
+    fetchMessages();
+  }, [selectedChat])
+
+
+  const fetchMessages = async () => {
+    if (!selectedChat) return
+
+    try {
+      const config = {
+        headers: {
+          Authorization: `Bearer ${user?.token}`
+        }
+      }
+      setLoading(true);
+
+      const { data } = await axios.get(`${apiURL}/api/message/${selectedChat._id}`, config);
+      console.log(data);
+      setMessages(data);
+      setLoading(false);
+
+    } catch (error) {
+      toast.error("Error Occured");
+    }
+
+  }
+
   const sendMessage = async (event: any) => {
     if (event.key === "Enter" && newMessage) {
       try {
@@ -39,16 +67,17 @@ const SingleChat = ({ fetchAgain, setFetchAgain }: any) => {
           }
         }
 
+        setNewMessage("");
         const { data } = await axios.post(`${apiURL}/api/message`,
           {
             content: newMessage,
             chatId: selectedChat._id
           }, config);
 
-        setNewMessage("");
+
+        console.log(messages)
         setMessages([...messages, data])
-      console.log(messages)
-      
+
       } catch (error) {
         toast.error("Error Occured");
       }
@@ -88,10 +117,10 @@ const SingleChat = ({ fetchAgain, setFetchAgain }: any) => {
             </div>
             <div className="flex flex-col justify-center p-3 bg-[#E8E8E8] w-full h-full overflow-y-hidden">
               {/* Message Here */}
-              {!loading ? (
+              {loading ? (
                 <span className="loading loading-spinner loading-lg text-2xl h-20 self-center m-auto"></span>
               ) : (
-                <h1>Not working well</h1>
+                <div className="h-full w-full ">Not working well</div>
               )}
 
               <div onKeyDown={sendMessage} className="mt-3 ">

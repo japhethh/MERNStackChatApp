@@ -137,7 +137,7 @@ const SideDrawer = () => {
             <div className="w-10 rounded-full">
               <img
                 alt="User Avatar"
-                src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
+                src={user?.pic}
               />
             </div>
           </div>

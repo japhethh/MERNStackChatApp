@@ -19,6 +19,7 @@ interface User {
   email: string;
   token: string;
   _id: string;
+  pic:string;
 
   // Add more fields as needed
 }
