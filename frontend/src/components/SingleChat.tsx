@@ -120,7 +120,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }: any) => {
               {loading ? (
                 <span className="loading loading-spinner loading-lg text-2xl h-20 self-center m-auto"></span>
               ) : (
-                <div className="h-full w-full ">Not working well</div>
+                <div className="h-full w-full ">Not working wells</div>
               )}
 
               <div onKeyDown={sendMessage} className="mt-3 ">
