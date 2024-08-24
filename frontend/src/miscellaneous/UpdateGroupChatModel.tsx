@@ -5,9 +5,8 @@ import UserBadgeItem from '../components/UserAvatar/UserBadgeItem';
 import { UserContext } from '../context/UserContext';
 import axios from 'axios';
 import { toast } from 'react-toastify';
-import ChatLoading from '../components/ChatLoading';
 import UserListItem from '../components/UserAvatar/UserListItem';
-const UpdateGroupChatModel = ({ fetchAgain, setFetchAgain }: any) => {
+const UpdateGroupChatModel = ({ fetchAgain, setFetchAgain, fetchMessages }: any) => {
   const [groupChatName, setGroupChatName] = useState<string>("");
   const [search, setSearch] = useState();
   const [searchResult, setSearchResult] = useState([]);
@@ -21,7 +20,7 @@ const UpdateGroupChatModel = ({ fetchAgain, setFetchAgain }: any) => {
   const { setSelectedChat, selectedChat, user } = context;
 
   const usercontext = useContext(UserContext);
-  if (!usercontext) { 
+  if (!usercontext) {
     return null;
   }
   const { apiURL } = usercontext;
@@ -82,6 +81,7 @@ const UpdateGroupChatModel = ({ fetchAgain, setFetchAgain }: any) => {
 
       user1._id === user?._id ? setSelectedChat("") : setSelectedChat(data);
       setFetchAgain(!fetchAgain);
+      fetchMessages();
       setLoading(false);
     } catch (error) {
       toast.error("Error Occured");

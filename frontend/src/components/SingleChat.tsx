@@ -7,6 +7,7 @@ import ProfileModal from '../miscellaneous/ProfileModal'
 import UpdateGroupChatModel from '../miscellaneous/UpdateGroupChatModel';
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import "./style.css"
 
 
 const SingleChat = ({ fetchAgain, setFetchAgain }: any) => {
@@ -112,15 +113,21 @@ const SingleChat = ({ fetchAgain, setFetchAgain }: any) => {
                 </>) : (
                 <>
                   {selectedChat.chatName.toUpperCase()}
-                  <UpdateGroupChatModel fetchAgain={fetchAgain} setFetchAgain={setFetchAgain} />
+                  <UpdateGroupChatModel fetchAgain={fetchAgain} setFetchAgain={setFetchAgain} fetchMessages={fetchMessages}/>
                 </>)}
             </div>
             <div className="flex flex-col justify-center p-3 bg-[#E8E8E8] w-full h-full overflow-y-hidden">
-              {/* Message Here */}
               {loading ? (
                 <span className="loading loading-spinner loading-lg text-2xl h-20 self-center m-auto"></span>
               ) : (
-                <div className="h-full w-full ">Not working wells</div>
+                
+                <div className="h-full w-full ">
+                <div className="messages">
+                {/* Messages */}
+              <ScrollableChat messages={messages}/>
+
+                </div>
+                </div>
               )}
 
               <div onKeyDown={sendMessage} className="mt-3 ">
