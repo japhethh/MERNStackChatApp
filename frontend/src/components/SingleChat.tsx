@@ -9,12 +9,16 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import "./style.css"
 import ScrollableChat from './ScrollableChat';
+import io from 'socket.io-client';
 
+const ENDPOINT = "http://localhost:4000";
+var socket: any, selectedChatCompare: any;
 
 const SingleChat = ({ fetchAgain, setFetchAgain }: any) => {
   const [messages, setMessages] = useState<string[]>([])
   const [loading, setLoading] = useState<boolean>(false);
   const [newMessage, setNewMessage] = useState("");
+
 
   const context = useContext(ChatContext);
   if (!context) {
@@ -36,6 +40,14 @@ const SingleChat = ({ fetchAgain, setFetchAgain }: any) => {
     fetchMessages();
   }, [selectedChat])
 
+  useEffect(() => {
+    socket = io(ENDPOINT);
+    socket.on('connect', () => {
+      console.log('Successfully connected to Socket.IO server');
+    });
+    // Clean up socket connection on component unmount
+
+  }, [])
 
   const fetchMessages = async () => {
     if (!selectedChat) return

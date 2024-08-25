@@ -7,7 +7,10 @@ import chatRouter from "./routes/chatRoute.js";
 import messageRouter from "./routes/messageRoute.js";
 import colors from "colors";
 import { notFound, errorHandler } from "./middleware/errorMiddleware.js";
+import { Server } from "socket.io";
+
 const app = express();
+
 import "dotenv/config";
 app.use(cors());
 app.use(express.json());
@@ -22,8 +25,6 @@ app.get("/api/chats", (req, res) => {
   res.send(chats);
 });
 
-
-
 app.get("/api/chat/:id", (req, res) => {
   console.log(req.params.id);
   const singleChat = chats.find((c) => c._id === req.params.id);
@@ -35,8 +36,20 @@ app.use("/api/chat", chatRouter);
 app.use("/api/message", messageRouter);
 app.use(notFound);
 app.use(errorHandler);
-app.listen(process.env.PORT, () => {
+
+const server = app.listen(process.env.PORT, () => {
   console.log(
     `Server Started on Port http://localhost:${process.env.PORT}`.yellow.bold
   );
+});
+
+const io = new Server(server, {
+  pingTimeout: 6000,
+  cors: {
+    origin: "http://localhost:3000",
+  },
+});
+
+io.on("connection", (socket) => {
+  console.log("connected to socket.io");
 });
