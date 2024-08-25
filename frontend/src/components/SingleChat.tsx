@@ -8,6 +8,7 @@ import UpdateGroupChatModel from '../miscellaneous/UpdateGroupChatModel';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import "./style.css"
+import ScrollableChat from './ScrollableChat';
 
 
 const SingleChat = ({ fetchAgain, setFetchAgain }: any) => {
@@ -113,20 +114,19 @@ const SingleChat = ({ fetchAgain, setFetchAgain }: any) => {
                 </>) : (
                 <>
                   {selectedChat.chatName.toUpperCase()}
-                  <UpdateGroupChatModel fetchAgain={fetchAgain} setFetchAgain={setFetchAgain} fetchMessages={fetchMessages}/>
+                  <UpdateGroupChatModel fetchAgain={fetchAgain} setFetchAgain={setFetchAgain} fetchMessages={fetchMessages} />
                 </>)}
             </div>
-            <div className="flex flex-col justify-center p-3 bg-[#E8E8E8] w-full h-full overflow-y-hidden">
+            <div className="flex flex-col justify-center p-10 bg-[#E8E8E8] w-full h-full overflow-y-hidden">
               {loading ? (
                 <span className="loading loading-spinner loading-lg text-2xl h-20 self-center m-auto"></span>
               ) : (
-                
-                <div className="h-full w-full ">
-                <div className="messages">
-                {/* Messages */}
-              <ScrollableChat messages={messages}/>
 
-                </div>
+                <div className="h-full w-full ">
+                  <div className=" overflow-y-scroll h-full w-full ">
+                    {/* Messages */}
+                    <ScrollableChat messages={messages} />
+                  </div>
                 </div>
               )}
 
