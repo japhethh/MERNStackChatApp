@@ -12,6 +12,8 @@ import { Server } from "socket.io";
 const app = express();
 
 import "dotenv/config";
+const PORT = process.env.PORT || 4000; // Fallback to 4000 if PORT is not defined
+
 app.use(cors());
 app.use(express.json());
 
@@ -37,19 +39,46 @@ app.use("/api/message", messageRouter);
 app.use(notFound);
 app.use(errorHandler);
 
-const server = app.listen(process.env.PORT, () => {
-  console.log(
-    `Server Started on Port http://localhost:${process.env.PORT}`.yellow.bold
-  );
+// Start the HTTP server on the specified PORT and log a message when it's ready.
+const server = app.listen(PORT, () => {
+  console.log(`Server Started on Port http://localhost:${PORT}`.yellow.bold);
 });
 
+// Create a new Socket.IO server, attached to the HTTP server, with specific settings.
+// - pingTimeout: Time in milliseconds to wait for a pong response from the client before closing the connection.
+// - cors: Allows requests from specified origins (development environments).
 const io = new Server(server, {
-  pingTimeout: 6000,
+  pingTimeout: 6000, // Close connection if no response from client within 6000ms.
   cors: {
-    origin: "http://localhost:3000",
+    origin: ["http://localhost:5173", "http://localhost:4000"], // Allow these origins to connect.
   },
 });
 
+// Listen for new connections from clients.
 io.on("connection", (socket) => {
-  console.log("connected to socket.io");
+  console.log("connected to socket.io"); // Log when a client connects successfully.
+
+  // Listen for a 'setup' event from the client, which sends user data.
+  socket.on("setup", (userData) => {
+    socket.join(userData._id); // Join the user to a room with their unique ID.
+    console.log(userData.name);
+    socket.emit("connected"); // Confirm the connection to the client.
+  });
+
+  socket.on("join chat", (room) => {
+    socket.join(room);
+    console.log("User Join room " + room);
+  });
+
+  socket.on("new message", (newMessageReceived) => {
+    var chat = newMessageReceived.chat;
+
+    if (!chat.users) return console.log("chat.user not defined");
+
+    chat.users.forEach((user) => {
+      if (user._id == newMessageReceived.sender_id) return;
+
+      socket.in(user._id).emit("message received" ,newMessageReceived);
+    });
+  });
 });

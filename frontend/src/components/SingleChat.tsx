@@ -9,6 +9,7 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import "./style.css"
 import ScrollableChat from './ScrollableChat';
+// import io from 'socket.io-client';
 import io from 'socket.io-client';
 
 const ENDPOINT = "http://localhost:4000";
@@ -18,6 +19,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }: any) => {
   const [messages, setMessages] = useState<string[]>([])
   const [loading, setLoading] = useState<boolean>(false);
   const [newMessage, setNewMessage] = useState("");
+  const [socketConnected, setSocketConnected] = useState<boolean>(false)
 
 
   const context = useContext(ChatContext);
@@ -38,15 +40,24 @@ const SingleChat = ({ fetchAgain, setFetchAgain }: any) => {
   useEffect(() => {
     // console.log(messages)
     fetchMessages();
+    selectedChatCompare = selectedChat;
   }, [selectedChat])
 
   useEffect(() => {
-    socket = io(ENDPOINT);
-    socket.on('connect', () => {
-      console.log('Successfully connected to Socket.IO server');
-    });
-    // Clean up socket connection on component unmount
+    socket.on("message received", (newMessageReceived:any) => {
+      if(!selectedChatCompare || selectedChatCompare._id !== newMessageReceived.chat._id){
+        // give notification
+      }else{
+        setMessages([...messages, newMessageReceived])
+      }
+    })
+  })
 
+  useEffect(() => {
+    socket = io(ENDPOINT);
+    socket.emit("setup",user)
+    socket.on("connection", () => setSocketConnected(true))
+    // Clean up socket connection on component unmount
   }, [])
 
   const fetchMessages = async () => {
@@ -65,6 +76,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }: any) => {
       setMessages(data);
       setLoading(false);
 
+      socket.emit("join chat", selectedChat._id)
     } catch (error) {
       toast.error("Error Occured");
     }
