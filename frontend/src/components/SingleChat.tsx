@@ -38,27 +38,29 @@ const SingleChat = ({ fetchAgain, setFetchAgain }: any) => {
   const { apiURL } = userContext;
 
   useEffect(() => {
+    socket = io(ENDPOINT);
+    socket.emit("setup", user)
+    socket.on("connection", () => setSocketConnected(true))
+    // Clean up socket connection on component unmount
+  }, [])
+
+  useEffect(() => {
     // console.log(messages)
     fetchMessages();
     selectedChatCompare = selectedChat;
   }, [selectedChat])
 
   useEffect(() => {
-    socket.on("message received", (newMessageReceived:any) => {
-      if(!selectedChatCompare || selectedChatCompare._id !== newMessageReceived.chat._id){
+    socket.on("message received", (newMessageReceived: any) => {
+      if (!selectedChatCompare || selectedChatCompare._id !== newMessageReceived.chat._id) {
         // give notification
-      }else{
+      } else {
         setMessages([...messages, newMessageReceived])
       }
     })
   })
 
-  useEffect(() => {
-    socket = io(ENDPOINT);
-    socket.emit("setup",user)
-    socket.on("connection", () => setSocketConnected(true))
-    // Clean up socket connection on component unmount
-  }, [])
+
 
   const fetchMessages = async () => {
     if (!selectedChat) return
@@ -99,9 +101,8 @@ const SingleChat = ({ fetchAgain, setFetchAgain }: any) => {
             content: newMessage,
             chatId: selectedChat._id
           }, config);
-
-
         console.log(messages)
+        socket.emit("new message", (data))
         setMessages([...messages, data])
 
       } catch (error) {
