@@ -62,7 +62,7 @@ io.on("connection", (socket) => {
   socket.on("setup", (userData) => {
     socket.join(userData._id); // Join the user to a room with their unique ID.
     console.log(userData.name);
-    socket.emit("connected"); // Confirm the connection to the client.
+    socket.emit("connected"); // Confirm the connection to the clients.
   });
 
   socket.on("join chat", (room) => {
@@ -72,13 +72,12 @@ io.on("connection", (socket) => {
 
   socket.on("new message", (newMessageReceived) => {
     var chat = newMessageReceived.chat;
-
     if (!chat.users) return console.log("chat.user not defined");
 
     chat.users.forEach((user) => {
       if (user._id == newMessageReceived.sender_id) return;
 
-      socket.in(user._id).emit("message received" ,newMessageReceived);
+      socket.in(user._id).emit("message received", newMessageReceived);
     });
   });
 });
