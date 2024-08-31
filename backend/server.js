@@ -61,7 +61,7 @@ io.on("connection", (socket) => {
   // Listen for a 'setup' event from the client, which sends user data.
   socket.on("setup", (userData) => {
     socket.join(userData._id); // Join the user to a room with their unique ID.
-    console.log(userData.name);
+    console.log(userData.name + " ako yung owner");
     socket.emit("connected"); // Confirm the connection to the clients.
   });
 
@@ -70,14 +70,19 @@ io.on("connection", (socket) => {
     console.log("User Join room " + room);
   });
 
+  socket.on("typing",(room) => socket.in(room).emit("typing"));
+  socket.on("stop typing",(room) => socket.in(room).emit("stop typing"));
+
   socket.on("new message", (newMessageReceived) => {
     var chat = newMessageReceived.chat;
     if (!chat.users) return console.log("chat.user not defined");
 
     chat.users.forEach((user) => {
       if (user._id == newMessageReceived.sender_id) return;
-
       socket.in(user._id).emit("message received", newMessageReceived);
     });
+
   });
+
+  
 });

@@ -9,6 +9,8 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import "./style.css"
 import ScrollableChat from './ScrollableChat';
+// import {Lottie} from 'react-lottie';
+// import animationData from '../animations/Typing.json'
 // import io from 'socket.io-client';
 import io from 'socket.io-client';
 
@@ -20,6 +22,19 @@ const SingleChat = ({ fetchAgain, setFetchAgain }: any) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [newMessage, setNewMessage] = useState("");
   const [socketConnected, setSocketConnected] = useState<boolean>(false)
+  const [typing, setTyping] = useState(false);
+  const [isTyping, setIsTyping] = useState(false);
+
+
+  // const defaultOptions = {
+  //   loop:true,
+  //   autoPlay:true,
+  //   animationData:animationData,
+  //   rendererSettings:{
+  //     preserveAspectRatio:"xMidYMid slice"
+  //   }
+  // }
+  
 
 
   const context = useContext(ChatContext);
@@ -40,9 +55,10 @@ const SingleChat = ({ fetchAgain, setFetchAgain }: any) => {
   useEffect(() => {
     socket = io(ENDPOINT);
     socket.emit("setup", user)
-    socket.on("connection", () => setSocketConnected(true))
-    // Clean up socket connection on component unmount
-  }, [])
+    socket.on("connected", () => setSocketConnected(true))
+    socket.on('typing', () => setIsTyping(true));
+    socket.on("stop typing", () => setIsTyping(false))
+  }, []);
 
   useEffect(() => {
     // console.log(messages)
@@ -58,7 +74,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }: any) => {
         setMessages([...messages, newMessageReceived])
       }
     })
-  })
+  });
 
 
 
@@ -113,7 +129,28 @@ const SingleChat = ({ fetchAgain, setFetchAgain }: any) => {
 
   const typeHandler = (e: any) => {
     setNewMessage(e.target.value);
+
+    if (!socketConnected) return;
+
+    if (!typing) {
+      setTyping(true);
+      socket.emit("typing", selectedChat._id)
+    }
+
+    let lastTypingTime = new Date().getTime();
+    var timerLength = 3000;
+
+    setTimeout(() => {
+      var timeNow = new Date().getTime();
+
+      var timeDiff = timeNow - lastTypingTime;
+      if (timeDiff >= timerLength && typing) {
+        socket.emit("stop typing", selectedChat._id);
+        setTyping(false);
+      }
+    }, timerLength)
   }
+
 
 
   useEffect(() => {
@@ -155,7 +192,12 @@ const SingleChat = ({ fetchAgain, setFetchAgain }: any) => {
                 </div>
               )}
 
-              <div onKeyDown={sendMessage} className="mt-3 ">
+              <div onKeyDown={sendMessage} className="mt-3">
+                {isTyping ? (<div className="text-base-400 "> 
+                  Loading...
+                  {/* <Lottie defaultOption={defaultOptions}/> */}
+                </div>) : (<div></div>)}
+
                 <input className="input input-bordered w-full" type="text" placeholder="Enter messages" onChange={typeHandler} value={newMessage} />
               </div>
             </div>
