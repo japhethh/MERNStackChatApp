@@ -9,6 +9,7 @@ import { UserContext } from "../context/UserContext";
 import axios from 'axios';
 import ChatLoading from '../components/ChatLoading';
 import UserListItem from '../components/UserAvatar/UserListItem';
+import { genSender } from '../config/ChatLogics';
 
 interface User {
   name: string;
@@ -31,7 +32,7 @@ const SideDrawer = () => {
 
   if (!chatContext || !userContext) return null;
 
-  const { user, setSelectedChat, chats, setChats } = chatContext;
+  const { user, setSelectedChat, chats, setChats, notification, setNotification } = chatContext;
   const { apiURL } = userContext;
 
   useEffect(() => {
@@ -121,10 +122,19 @@ const SideDrawer = () => {
               <GoBellFill className="text-2xl" />
             </div>
           </div>
-          <div className="card card-compact dropdown-content bg-base-100 z-[1] mt-3 w-52 shadow">
+          <div className="card card-compact dropdown-content bg-base-100 z-[1] mt-3 w-72 shadow">
             <div className="card-body">
               <span className="text-lg font-bold">8 Items</span>
-              <span className="text-info">Subtotal: $999</span>
+              <span className="text-info">
+                <ul className="menu bg-base-200 rounded-box w-full ">
+                  {!notification.length && <div>No new messages</div>}
+                  {notification && notification.map((notif: any) => (
+                    <li key={notif._id}><a href="">
+                      {notif.chat.isGroupChat ? `New Message in ${notif.chat.isGroupChat}` : `New Message from ${genSender(user, notif.chat.users)}`}</a></li>
+                  ))}
+                </ul>
+
+              </span>
               <div className="card-actions">
                 <button className="btn btn-primary btn-block">View cart</button>
               </div>

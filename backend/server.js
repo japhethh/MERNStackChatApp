@@ -38,11 +38,12 @@ app.use("/api/chat", chatRouter);
 app.use("/api/message", messageRouter);
 app.use(notFound);
 app.use(errorHandler);
-
 // Start the HTTP server on the specified PORT and log a message when it's ready.
 const server = app.listen(PORT, () => {
   console.log(`Server Started on Port http://localhost:${PORT}`.yellow.bold);
 });
+
+ 
 
 // Create a new Socket.IO server, attached to the HTTP server, with specific settings.
 // - pingTimeout: Time in milliseconds to wait for a pong response from the client before closing the connection.
@@ -61,6 +62,7 @@ io.on("connection", (socket) => {
   // Listen for a 'setup' event from the client, which sends user data.
   socket.on("setup", (userData) => {
     socket.join(userData._id); // Join the user to a room with their unique ID.
+    socket.userData = userData;
     console.log(userData.name + " ako yung owner");
     socket.emit("connected"); // Confirm the connection to the clients.
   });
@@ -70,19 +72,27 @@ io.on("connection", (socket) => {
     console.log("User Join room " + room);
   });
 
-  socket.on("typing",(room) => socket.in(room).emit("typing"));
-  socket.on("stop typing",(room) => socket.in(room).emit("stop typing"));
+  socket.on("typing", (room) => {
+    socket.in(room).emit("typing");
+  });
+  socket.on("stop typing", (room) => socket.in(room).emit("stop typing"));
 
   socket.on("new message", (newMessageReceived) => {
-    var chat = newMessageReceived.chat;
-    if (!chat.users) return console.log("chat.user not defined");
+    const chat = newMessageReceived.chat;
+    if (!chat.users) {
+      return console.log("chat.user is not defined");
+    }
 
     chat.users.forEach((user) => {
-      if (user._id == newMessageReceived.sender_id) return;
+     
+      if(user._id == newMessageReceived.sender)return;
+
       socket.in(user._id).emit("message received", newMessageReceived);
     });
-
   });
 
-  
+  socket.off("setup", () => {
+    console.log("USER DISCONNECTED");
+    socket.leave(socket.userData._id);
+  });
 });

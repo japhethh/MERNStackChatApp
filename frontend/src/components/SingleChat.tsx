@@ -9,9 +9,7 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import "./style.css"
 import ScrollableChat from './ScrollableChat';
-// import {Lottie} from 'react-lottie';
-// import animationData from '../animations/Typing.json'
-// import io from 'socket.io-client';
+
 import io from 'socket.io-client';
 
 const ENDPOINT = "http://localhost:4000";
@@ -26,15 +24,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }: any) => {
   const [isTyping, setIsTyping] = useState(false);
 
 
-  // const defaultOptions = {
-  //   loop:true,
-  //   autoPlay:true,
-  //   animationData:animationData,
-  //   rendererSettings:{
-  //     preserveAspectRatio:"xMidYMid slice"
-  //   }
-  // }
-  
+
 
 
   const context = useContext(ChatContext);
@@ -48,7 +38,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }: any) => {
   }
 
 
-  const { user, selectedChat, setSelectedChat } = context;
+  const { user, selectedChat, setSelectedChat, notification, setNotification } = context;
 
   const { apiURL } = userContext;
 
@@ -66,13 +56,22 @@ const SingleChat = ({ fetchAgain, setFetchAgain }: any) => {
     selectedChatCompare = selectedChat;
   }, [selectedChat])
 
+  console.log(notification);
+
+
   useEffect(() => {
     socket.on("message received", (newMessageReceived: any) => {
       if (!selectedChatCompare || selectedChatCompare._id !== newMessageReceived.chat._id) {
         // give notification
+
+        if (!notification.includes(newMessageReceived)) {
+          setNotification([...notification, newMessageReceived])
+          setFetchAgain(!fetchAgain)
+        }
       } else {
         setMessages([...messages, newMessageReceived])
       }
+
     })
   });
 
@@ -90,7 +89,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }: any) => {
       setLoading(true);
 
       const { data } = await axios.get(`${apiURL}/api/message/${selectedChat._id}`, config);
-      console.log(data);
+      // console.log(data);
       setMessages(data);
       setLoading(false);
 
@@ -117,7 +116,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }: any) => {
             content: newMessage,
             chatId: selectedChat._id
           }, config);
-        console.log(messages)
+        // console.log(messages)
         socket.emit("new message", (data))
         setMessages([...messages, data])
 
@@ -153,9 +152,9 @@ const SingleChat = ({ fetchAgain, setFetchAgain }: any) => {
 
 
 
-  useEffect(() => {
-    console.log(newMessage)
-  }, [])
+  // useEffect(() => {
+  //   console.log(newMessage)
+  // }, [])
 
   return (
     <>
@@ -193,9 +192,8 @@ const SingleChat = ({ fetchAgain, setFetchAgain }: any) => {
               )}
 
               <div onKeyDown={sendMessage} className="mt-3">
-                {isTyping ? (<div className="text-base-400 "> 
+                {isTyping ? (<div className="text-base-400 ">
                   Loading...
-                  {/* <Lottie defaultOption={defaultOptions}/> */}
                 </div>) : (<div></div>)}
 
                 <input className="input input-bordered w-full" type="text" placeholder="Enter messages" onChange={typeHandler} value={newMessage} />

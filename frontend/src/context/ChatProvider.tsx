@@ -11,6 +11,8 @@ interface ChatContextValue {
   selectedChat: any;
   chats: any;
   setChats: any;
+  notification:any;
+  setNotification:any
   // setUser:any
 }
 
@@ -29,8 +31,10 @@ export const ChatContext = createContext<ChatContextValue | null>(null);
 const ChatProvider = ({ children }: Props) => {
   const [user, setUser] = useState<User | null>(null);
   const [selectedChat, setSelectedChat] = useState();
-  const [chats, setChats] = useState();
+  const [chats, setChats] = useState([]);
+  const [notification, setNotification] = useState([])
   const navigate = useNavigate();
+
 
   useEffect(() => {
     const userInfo = localStorage.getItem('userInfo');
@@ -47,6 +51,8 @@ const ChatProvider = ({ children }: Props) => {
     selectedChat,
     chats,
     setChats,
+    notification,
+    setNotification,
 
     // setUser,
   };
