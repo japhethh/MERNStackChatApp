@@ -102,6 +102,16 @@ const SideDrawer = () => {
     }
   };
 
+  const notificationLogic = () => {
+    return notification.length;
+  }
+
+  const handleSetLogic = (notif: any) => {
+    console.log("notif.chat")
+    setSelectedChat(notif.chat);
+    setNotification(notification.filter((n: any) => n !== notif));
+  }
+
   return (
     <div className="flex justify-between items-center bg-white w-full py-1 px-2 border-2">
       <div className="tooltip tooltip-bottom" data-tip="Search User to Chat">
@@ -118,26 +128,30 @@ const SideDrawer = () => {
       <div className="flex items-center space-x-4">
         <div className="dropdown dropdown-end">
           <div tabIndex={0} role="button" className="btn btn-ghost btn-circle">
-            <div className="indicator">
+            <div className={`${notificationLogic() ? "indicator" : ""}`}>
+              <span className={`${notificationLogic() ? "indicator-item badge badge-secondary" : ""}`}>{notification.length ? `${notification.length}` : ""}</span>
               <GoBellFill className="text-2xl" />
             </div>
           </div>
           <div className="card card-compact dropdown-content bg-base-100 z-[1] mt-3 w-72 shadow">
             <div className="card-body">
-              <span className="text-lg font-bold">8 Items</span>
+
               <span className="text-info">
-                <ul className="menu bg-base-200 rounded-box w-full ">
+                <ul tabIndex={0} className="menu bg-base-200 rounded-box w-full ">
                   {!notification.length && <div>No new messages</div>}
-                  {notification && notification.map((notif: any) => (
-                    <li key={notif._id}><a href="">
-                      {notif.chat.isGroupChat ? `New Message in ${notif.chat.isGroupChat}` : `New Message from ${genSender(user, notif.chat.users)}`}</a></li>
+                  {notification.map((notif: any) => (
+                    <li className="cursor-pointer" key={notif._id} onClick={() => handleSetLogic(notif)}>
+                      <a >
+                        {notif.chat.isGroupChat
+                          ? `New Message in ${notif.chat.chatName}`
+                          : `New Message from ${genSender(user, notif.chat.users)}`}
+                      </a>
+                    </li>
                   ))}
+
                 </ul>
 
               </span>
-              <div className="card-actions">
-                <button className="btn btn-primary btn-block">View cart</button>
-              </div>
             </div>
           </div>
         </div>
