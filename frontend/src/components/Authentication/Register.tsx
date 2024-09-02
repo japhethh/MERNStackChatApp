@@ -88,13 +88,13 @@ const Register = () => {
   const handleClick = () => setShow(!show);
 
   // Update preview when image file is selected
-  const handleImagePreview = () => {
-    const fileInput = imageRef.current;
-    if (fileInput?.files?.[0]) {
-      const file = fileInput.files[0];
-      // setPreview(URL.createObjectURL(file)); // Update the preview state with the file URL
-    }
-  };
+  // const handleImagePreview = () => {
+  //   const fileInput = imageRef.current;
+  //   if (fileInput?.files?.[0]) {
+  //     const file = fileInput.files[0];
+  //     // setPreview(URL.createObjectURL(file)); // Update the preview state with the file URL
+  //   }
+  // };
 
   return (
     <div>
@@ -155,7 +155,7 @@ const Register = () => {
               hover:file:bg-violet-100"
             {...register("image")}
             ref={imageRef} // Use ref to access the file input
-            onChange={handleImagePreview} // Update preview on change
+            // onChange={handleImagePreview} // Update preview on change
           />
         </label>
         {errors.image && (
