@@ -22,7 +22,8 @@ type FormField = z.infer<typeof schema>;
 
 const Register = () => {
   const [show, setShow] = useState<boolean>(false);
-  const [preview, setPreview] = useState<string | ArrayBuffer | null>(null); // State for the image preview
+  // const [preview, setPreview] = useState<string | ArrayBuffer | null>(null);
+  // State for the image preview
   const imageRef = React.useRef<HTMLInputElement | null>(null); // Ref for the file input
   // const [loading, setLoading] = useState<boolean>(false)
   const context = useContext(UserContext);
@@ -91,7 +92,7 @@ const Register = () => {
     const fileInput = imageRef.current;
     if (fileInput?.files?.[0]) {
       const file = fileInput.files[0];
-      setPreview(URL.createObjectURL(file)); // Update the preview state with the file URL
+      // setPreview(URL.createObjectURL(file)); // Update the preview state with the file URL
     }
   };
 

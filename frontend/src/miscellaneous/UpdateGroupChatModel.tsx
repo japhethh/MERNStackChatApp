@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react'
+import { useContext, useState } from 'react'
 import { FaEye } from 'react-icons/fa';
 import { ChatContext } from '../context/ChatProvider';
 import UserBadgeItem from '../components/UserAvatar/UserBadgeItem';
