@@ -51,7 +51,7 @@ const server = app.listen(PORT, () => {
 const io = new Server(server, {
   pingTimeout: 6000, // Close connection if no response from client within 6000ms.
   cors: {
-    origin: ["http://localhost:5173", "http://localhost:4000"], // Allow these origins to connect.
+    origin: ["https://mernstackchatapp-frontend.onrender.com", "http://localhost:4000"], // Allow these origins to connect.
   },
 });
 

@@ -11,7 +11,7 @@ interface Props {
 }
 
 const UserContextProvider = ({ children }:Props) => {
-  const apiURL = "http://localhost:4000";
+  const apiURL = "https://mernstackchatapp-api.onrender.com";
 
   const contextValue: UserContextValue = {
     apiURL,
