@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { FaEye } from 'react-icons/fa';
 import { ChatContext } from '../context/ChatProvider';
 import UserBadgeItem from '../components/UserAvatar/UserBadgeItem';
@@ -8,7 +8,7 @@ import { toast } from 'react-toastify';
 import UserListItem from '../components/UserAvatar/UserListItem';
 const UpdateGroupChatModel = ({ fetchAgain, setFetchAgain, fetchMessages }: any) => {
   const [groupChatName, setGroupChatName] = useState<string>("");
-  const [search, setSearch] = useState();
+  // const [search, setSearch] = useState();
   const [searchResult, setSearchResult] = useState([]);
   const [loading, setLoading] = useState(false);
   const [renameLoading, setRenameLoading] = useState(false);
@@ -150,12 +150,22 @@ const UpdateGroupChatModel = ({ fetchAgain, setFetchAgain, fetchMessages }: any)
 
   return (
     <div>
+      {/* This part is edit */}
       <button className="btn">
         <FaEye
           className="text-xl"
-          onClick={() => document.getElementById('my_modal_3')?.showModal()}
+          onClick={() => {
+            const modal = document.getElementById('my_modal_3') as HTMLDialogElement | null;
+            if (modal) {
+              modal.showModal();
+            } else {
+              console.error("Modal element not found");
+            }
+          }}
         />
       </button>
+      {/* End */}
+
       <dialog id="my_modal_3" className="modal">
         <div className="modal-box">
           <form method="dialog">

@@ -1,4 +1,3 @@
-import React, { ReactNode } from 'react'
 import { IoIosClose } from "react-icons/io";
 
 interface User {

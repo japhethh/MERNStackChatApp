@@ -1,4 +1,4 @@
-import { ReactNode, useContext, useEffect, useState } from "react";
+import { ReactNode, useContext, useState } from "react";
 import { toast } from 'react-toastify';
 import { ChatContext } from "../context/ChatProvider";
 import axios from "axios";

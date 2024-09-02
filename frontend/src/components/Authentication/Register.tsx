@@ -24,7 +24,7 @@ const Register = () => {
   const [show, setShow] = useState<boolean>(false);
   const [preview, setPreview] = useState<string | ArrayBuffer | null>(null); // State for the image preview
   const imageRef = React.useRef<HTMLInputElement | null>(null); // Ref for the file input
-  const [loading, setLoading] = useState<boolean>(false)
+  // const [loading, setLoading] = useState<boolean>(false)
   const context = useContext(UserContext);
   const navigate = useNavigate();
   if (!context) {
@@ -32,13 +32,13 @@ const Register = () => {
   }
 
   const { apiURL } = context;
-
-  const { handleSubmit, register, formState: { errors }, setValue } = useForm<FormField>({
+  // , setValue 
+  const { handleSubmit, register, formState: { errors }} = useForm<FormField>({
     resolver: zodResolver(schema)
   });
 
   const onSubmit: SubmitHandler<FormField> = async (data) => {
-    setLoading(true)
+    // setLoading(true)
     console.log(data);
     if (!data.name || !data.email || !data.password || !data.confirmpassword) {
       toast.error("Please Fill all the field");
@@ -72,7 +72,7 @@ const Register = () => {
         navigate("/chats")
         console.log(response);
         toast.success("Successfully Register")
-        setLoading(false)
+        // setLoading(false)
         localStorage.setItem("userInfo", JSON.stringify(response.data.data))
       }
 
@@ -137,7 +137,7 @@ const Register = () => {
         <div className="shrink-0">
           <img
             className="h-16 w-16 object-cover rounded-full"
-            src={preview || "https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1361&q=80"} // Show preview or default image
+            src={"https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1361&q=80"} // Show preview or default image
             alt="Current profile photo"
           />
         </div>

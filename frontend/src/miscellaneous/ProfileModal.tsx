@@ -2,7 +2,7 @@ import React, { useRef } from 'react';
 import { FaEye } from 'react-icons/fa';
 
 interface ProfileModalProps {
-  children: React.ReactNode;
+  children?: React.ReactNode;
   user: any;
 }
 

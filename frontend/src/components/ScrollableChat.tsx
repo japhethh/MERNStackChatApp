@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import  { useContext } from 'react';
 import ScrollableFeed from 'react-scrollable-feed';
 import { isLastMessage, isSameSender, isSameUser, isSameSenderMargin } from '../config/ChatLogics';
 import { ChatContext } from '../context/ChatProvider';

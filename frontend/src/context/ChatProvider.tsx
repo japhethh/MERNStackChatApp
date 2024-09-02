@@ -1,4 +1,4 @@
-import { createContext, ReactNode, FC, useEffect, useState } from 'react';
+import { createContext, ReactNode, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 interface Props {

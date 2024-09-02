@@ -9,7 +9,7 @@ import axios from "axios";
 import ChatLoading from "./ChatLoading";
 import GroupChatModel from "../miscellaneous/GroupChatModel";
 
-const MyChats = ({fetchAgain}:any) => {
+const MyChats = ({ fetchAgain }: any) => {
   const [loggedUser, setLoggedUser] = useState<any>(null); // Set initial state to null
   const context = useContext(ChatContext);
   if (!context) {
@@ -47,15 +47,21 @@ const MyChats = ({fetchAgain}:any) => {
     }
   }, [fetchAgain]); // Dependency array is empty, so it runs once on mount
 
+  const openGroupChatModal = () => {
+    const modal = document.getElementById('my_modal_2') as HTMLDialogElement;
+    if (modal) {
+      modal.showModal();
+    } else {
+      console.error("Modal element not found");
+    }
+  };
 
   return (
-    <div className={`${selectedChat ? "hidden" : "flex"} md:flex max-md:none rounded-md flex-col max-md:w-full md:w-[50%] bg-white shadow-2xl	`}>
-
+    <div className={`${selectedChat ? "hidden" : "flex"} md:flex max-md:none rounded-md flex-col max-md:w-full md:w-[50%] bg-white shadow-2xl`}>
       <div className="flex justify-between items-center px-2 pb-2 w-full font-sans py-2">
-
         <h1>My Chats</h1>
         <GroupChatModel>
-          <button className="btn btn-md" onClick={() => document.getElementById('my_modal_2').showModal()} type="button">
+          <button className="btn btn-md" onClick={openGroupChatModal} type="button">
             <span>New Group Chat</span> <IoIosAdd />
           </button>
         </GroupChatModel>
@@ -66,7 +72,8 @@ const MyChats = ({fetchAgain}:any) => {
           <div className="overflow-y-scroll my-scroll-container flex flex-col gap-1">
             {chats.map((chat: any) => (
               <div
-                className={`cursor-pointer py-2 px-3 rounded-lg ${selectedChat?._id === chat._id ? "bg-teal-500 text-white" : "bg-gray-200 text-black"
+                className={`cursor-pointer py-2 px-3 rounded-lg ${selectedChat?._id === chat
+                  ._id ? "bg-teal-500 text-white" : "bg-gray-200 text-black"
                   }`} // Conditional class for selected chat
                 key={chat._id}
                 onClick={() => setSelectedChat(chat)}
@@ -84,7 +91,6 @@ const MyChats = ({fetchAgain}:any) => {
           <ChatLoading /> // Show loading component if chats are not yet fetched
         )}
       </div>
-      
     </div>
   );
 };

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import { useContext, useState } from 'react'
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { z } from 'zod';
@@ -48,6 +48,7 @@ const Login = () => {
         console.log(response);
         toast.success("Successfully Login")
         localStorage.setItem("userInfo",JSON.stringify(response.data.data));
+        window.location.reload();
       }
     } catch (error:any) {
       if (error.response && error.response.data) {
