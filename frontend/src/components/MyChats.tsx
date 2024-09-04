@@ -12,11 +12,21 @@ import GroupChatModel from "../miscellaneous/GroupChatModel";
 const MyChats = ({ fetchAgain }: any) => {
   const [loggedUser, setLoggedUser] = useState<any>(null); // Set initial state to null
   const context = useContext(ChatContext);
+  const usercontext = useContext(UserContext);
+
+
+  useEffect(() => {
+    const userInfo = localStorage.getItem("userInfo");
+    if (userInfo) {
+      setLoggedUser(JSON.parse(userInfo)); // Set loggedUser state from localStorage
+      fetchChats(); // Fetch chats when the component mounts
+    }
+  }, [fetchAgain]); // Dependency array is empty, so it runs once on mount
+
   if (!context) {
     return null; // Ensure context is available
   }
 
-  const usercontext = useContext(UserContext);
   if (!usercontext) {
     return null; // Ensure user context is available
   }
@@ -39,14 +49,6 @@ const MyChats = ({ fetchAgain }: any) => {
     }
   };
 
-  useEffect(() => {
-    const userInfo = localStorage.getItem("userInfo");
-    if (userInfo) {
-      setLoggedUser(JSON.parse(userInfo)); // Set loggedUser state from localStorage
-      fetchChats(); // Fetch chats when the component mounts
-    }
-  }, [fetchAgain]); // Dependency array is empty, so it runs once on mount
-
   const openGroupChatModal = () => {
     const modal = document.getElementById('my_modal_2') as HTMLDialogElement;
     if (modal) {
@@ -55,6 +57,7 @@ const MyChats = ({ fetchAgain }: any) => {
       console.error("Modal element not found");
     }
   };
+
 
   return (
     <div className={`${selectedChat ? "hidden" : "flex"} md:flex max-md:none rounded-md flex-col max-md:w-full md:w-[50%] bg-white shadow-2xl`}>

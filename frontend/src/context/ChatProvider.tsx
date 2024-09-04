@@ -11,8 +11,8 @@ interface ChatContextValue {
   selectedChat: any;
   chats: any;
   setChats: any;
-  notification:any;
-  setNotification:any
+  notification: any;
+  setNotification: any
   // setUser:any
 }
 
@@ -21,7 +21,7 @@ interface User {
   email: string;
   token: string;
   _id: string;
-  pic:string;
+  pic: string;
 
   // Add more fields as needed
 }

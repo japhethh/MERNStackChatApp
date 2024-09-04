@@ -1,4 +1,4 @@
-import { createContext, ReactNode} from "react";
+import { createContext, ReactNode } from "react";
 
 export const UserContext = createContext<UserContextValue | null>(null)
 
@@ -10,8 +10,8 @@ interface Props {
   children: ReactNode;
 }
 
-const UserContextProvider = ({ children }:Props) => {
-  const apiURL = "https://mernstackchatapp-api.onrender.com";
+const UserContextProvider = ({ children }: Props) => {
+  const apiURL = "http://localhost:4000";
 
   const contextValue: UserContextValue = {
     apiURL,

@@ -4,7 +4,7 @@ export const connectDB = async () => {
   try {
     await mongoose
       .connect(
-        process.env.MONGODB_URL
+        "mongodb+srv://helloworld32130:Jcwdlove@cluster0.uq2qpga.mongodb.net/Fuck"
       )
       .then(() => console.log("Db connected".green.underline));
   } catch (error) {
