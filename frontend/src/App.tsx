@@ -1,4 +1,4 @@
-import { Routes, Route, useNavigate } from "react-router-dom"
+import { Routes, Route, useNavigate, useLocation } from "react-router-dom"
 import ChatPage from "./pages/ChatPage";
 import HomePage from "./pages/HomePage";
 import { ToastContainer } from 'react-toastify';
@@ -10,11 +10,12 @@ import { ChatContext } from "./context/ChatProvider";
 const App = () => {
   const context = useContext(ChatContext);
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
 
     if (!context) {
-      return null;
+      return;
     }
     const { user } = context;
 
@@ -27,7 +28,7 @@ const App = () => {
         navigate("/login")
       }
     }
-  }, [context])
+  }, [context, navigate, location])
 
   if (!context) {
     return null;
