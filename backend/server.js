@@ -8,6 +8,8 @@ import messageRouter from "./routes/messageRoute.js";
 import colors from "colors";
 import { notFound, errorHandler } from "./middleware/errorMiddleware.js";
 import { Server } from "socket.io";
+import path from "path"; // Import the path module
+
 
 const app = express();
 
@@ -36,14 +38,26 @@ app.get("/api/chat/:id", (req, res) => {
 app.use("/api/user", userRouter);
 app.use("/api/chat", chatRouter);
 app.use("/api/message", messageRouter);
+
+const _disname1 = path.resolve();
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(_disname1, "/frontend/build")));
+
+  app.get("*", (req,res) => {
+    res.sendFile(path.resolve(__dirname1, "frontent", "build","index.html"));
+  })
+} else {
+  app.use("/", (req, res) => {
+    res.send("API is Running Successfully");
+  });
+}
+
 app.use(notFound);
 app.use(errorHandler);
 // Start the HTTP server on the specified PORT and log a message when it's ready.
-const server = app.listen(PORT, () => {
+const server = app.listen(PORT, () => { 
   console.log(`Server Started on Port http://localhost:${PORT}`.yellow.bold);
 });
-
- 
 
 // Create a new Socket.IO server, attached to the HTTP server, with specific settings.
 // - pingTimeout: Time in milliseconds to wait for a pong response from the client before closing the connection.
@@ -51,7 +65,10 @@ const server = app.listen(PORT, () => {
 const io = new Server(server, {
   pingTimeout: 6000, // Close connection if no response from client within 6000ms.
   cors: {
-    origin: ["https://mernstackchatapp-frontend.onrender.com", "http://localhost:4000"], // Allow these origins to connect.
+    origin: [
+      "https://mernstackchatapp-frontend.onrender.com",
+      "http://localhost:4000",
+    ], // Allow these origins to connect.
   },
 });
 
@@ -84,8 +101,7 @@ io.on("connection", (socket) => {
     }
 
     chat.users.forEach((user) => {
-     
-      if(user._id == newMessageReceived.sender)return;
+      if (user._id == newMessageReceived.sender) return;
 
       socket.in(user._id).emit("message received", newMessageReceived);
     });

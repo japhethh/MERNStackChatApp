@@ -1,6 +1,6 @@
 import  { useEffect } from 'react'
 import Login from '../components/Authentication/Login'
-import Regsiter from '../components/Authentication/Register'
+import Register from '../components/Authentication/Register'
 import { useNavigate } from 'react-router-dom'
 const HomePage = () => {
   const navigate = useNavigate();
@@ -35,7 +35,7 @@ const HomePage = () => {
             aria-label="Sign Up"
             defaultChecked />
           <div role="tabpanel" className="tab-content bg-base-100 border-base-300 rounded-box p-6 h-92 w-92">
-            <Regsiter />
+            <Register />
           </div>
         </div>
       </div>
