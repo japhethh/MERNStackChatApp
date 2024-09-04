@@ -12,8 +12,8 @@ import ScrollableChat from './ScrollableChat';
 
 import io from 'socket.io-client';
 
-const ENDPOINT = "http://localhost:4000";
-var socket: any, selectedChatCompare: any;
+const ENDPOINT = "https://mernstackchatapp-api.onrender.com";
+let socket: any, selectedChatCompare: any;
 
 const SingleChat = ({ fetchAgain, setFetchAgain }: any) => {
   const [messages, setMessages] = useState<string[]>([])
