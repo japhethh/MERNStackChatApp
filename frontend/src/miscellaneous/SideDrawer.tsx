@@ -42,7 +42,8 @@ const SideDrawer = () => {
 
   const logoutHandler = () => {
     localStorage.removeItem("userInfo");
-    navigate("/");
+    // navigate("/logout");
+    window.location.href = "/login";
   };
 
   const handlerSearch = async () => {

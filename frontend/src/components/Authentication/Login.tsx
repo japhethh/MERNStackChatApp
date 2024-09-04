@@ -48,7 +48,7 @@ const Login = () => {
         console.log(response);
         toast.success("Successfully Login")
         localStorage.setItem("userInfo",JSON.stringify(response.data.data));
-        window.location.reload();
+        // window.location.reload();
       }
     } catch (error:any) {
       if (error.response && error.response.data) {
