@@ -3,7 +3,7 @@ import { IoMdSearch } from 'react-icons/io';
 import { GoBellFill } from 'react-icons/go';
 import { ChatContext } from '../context/ChatProvider';
 import ProfileModal from '../miscellaneous/ProfileModal';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { UserContext } from "../context/UserContext";
 import axios from 'axios';
@@ -25,7 +25,7 @@ const SideDrawer = () => {
   const [searchResult, setSearchResult] = useState<User[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [loadingChat, setLoadingChat] = useState<boolean>(false);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const chatContext = useContext(ChatContext);
   const userContext = useContext(UserContext);
