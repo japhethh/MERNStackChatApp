@@ -1,18 +1,45 @@
-import { Routes, Route } from "react-router-dom"
+import { Routes, Route, useNavigate } from "react-router-dom"
 import ChatPage from "./pages/ChatPage";
 import HomePage from "./pages/HomePage";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import NotFound from "./pages/NotFound";
+import { useContext, useEffect } from "react";
+import { ChatContext } from "./context/ChatProvider";
 
 const App = () => {
+  const context = useContext(ChatContext);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+
+    if (!context) {
+      return null;
+    }
+    const { user } = context;
+
+    if (user?.token) {
+      if (location.pathname === "/login") {
+        navigate("/")
+      }
+    } else {
+      if (location.pathname !== "/login") {
+        navigate("/login")
+      }
+    }
+  }, [context])
+
+  if (!context) {
+    return null;
+  }
+
   return (
     <div>
       <ToastContainer autoClose={2000} />
       <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/chats" element={<ChatPage />} />
-        <Route path="*" element={<NotFound/>}></Route>
+        <Route path="/login" element={<HomePage />} />
+        <Route path="/" element={<ChatPage />} />
+        <Route path="*" element={<NotFound />}></Route>
       </Routes>
 
     </div>

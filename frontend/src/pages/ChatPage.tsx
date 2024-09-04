@@ -6,6 +6,7 @@ import MyChats from "../components/MyChats";
 import SideDrawer from "../miscellaneous/SideDrawer";
 import ChatBox from "../components/ChatBox";
 const ChatPage = () => {
+  const [fetchAgain, setFetchAgain] = useState(false);
 
   const context = useContext(ChatContext);
   if (!context) {
@@ -13,7 +14,6 @@ const ChatPage = () => {
   }
   const { user } = context;
 
-  const [fetchAgain, setFetchAgain] = useState(false);
 
 
 

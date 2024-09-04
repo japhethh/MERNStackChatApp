@@ -70,7 +70,7 @@ const Register = () => {
     try {
       const response = await axios.post(`${apiURL}/api/user/`, formData);
       if (response.data.success) {
-        navigate("/chats")
+        navigate("/")
         console.log(response);
         toast.success("Successfully Register")
         // setLoading(false)

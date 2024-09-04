@@ -44,7 +44,7 @@ const Login = () => {
     try {
       const response = await axios.post(`${apiURL}/api/user/login`, data);
       if(response.data.success){
-        navigate("/chats");
+        navigate("/");
         console.log(response);
         toast.success("Successfully Login")
         localStorage.setItem("userInfo",JSON.stringify(response.data.data));

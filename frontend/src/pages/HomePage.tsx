@@ -11,7 +11,7 @@ const HomePage = () => {
     if (userInfo) {
       const user = JSON.parse(userInfo);
       if (user) {
-        navigate("/chats");
+        navigate("/");
       }
     }
 

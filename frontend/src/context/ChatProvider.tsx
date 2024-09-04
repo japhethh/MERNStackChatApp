@@ -41,7 +41,7 @@ const ChatProvider = ({ children }: Props) => {
     if (userInfo) {
       setUser(JSON.parse(userInfo));
     } else {
-      navigate('/');
+      navigate('/login');
     }
   }, [navigate]);
 
