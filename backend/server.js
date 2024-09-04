@@ -10,7 +10,6 @@ import { notFound, errorHandler } from "./middleware/errorMiddleware.js";
 import { Server } from "socket.io";
 import path from "path"; // Import the path module
 
-
 const app = express();
 
 import "dotenv/config";
@@ -43,9 +42,9 @@ const _disname1 = path.resolve();
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(_disname1, "/frontend/build")));
 
-  app.get("*", (req,res) => {
-    res.sendFile(path.resolve(__dirname1, "frontent", "build","index.html"));
-  })
+  app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname1, "frontent", "build", "index.html"));
+  });
 } else {
   app.use("/", (req, res) => {
     res.send("API is Running Successfully");
@@ -55,7 +54,7 @@ if (process.env.NODE_ENV === "production") {
 app.use(notFound);
 app.use(errorHandler);
 // Start the HTTP server on the specified PORT and log a message when it's ready.
-const server = app.listen(PORT, () => { 
+const server = app.listen(PORT, () => {
   console.log(`Server Started on Port http://localhost:${PORT}`.yellow.bold);
 });
 
@@ -67,7 +66,6 @@ const io = new Server(server, {
   cors: {
     origin: [
       "https://mernstackchatapp-frontend.onrender.com",
-      "http://localhost:4000",
     ], // Allow these origins to connect.
   },
 });
