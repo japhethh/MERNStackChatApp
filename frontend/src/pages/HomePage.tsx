@@ -3,17 +3,17 @@ import Login from '../components/Authentication/Login'
 import Register from '../components/Authentication/Register'
 import { useNavigate } from 'react-router-dom'
 const HomePage = () => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   useEffect(() => {
-    const userInfo = localStorage.getItem("userInfo");
+    // const userInfo = localStorage.getItem("userInfo");
 
-    if (userInfo) {
-      const user = JSON.parse(userInfo);
-      if (user) {
-        navigate("/");
-      }
-    }
+    // if (userInfo) {
+    //   const user = JSON.parse(userInfo);
+    //   if (user) {
+    //     navigate("/");
+    //   }
+    // }
 
   })
 

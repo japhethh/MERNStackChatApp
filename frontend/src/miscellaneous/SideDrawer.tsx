@@ -10,6 +10,9 @@ import axios from 'axios';
 import ChatLoading from '../components/ChatLoading';
 import UserListItem from '../components/UserAvatar/UserListItem';
 import { genSender } from '../config/ChatLogics';
+import { FaLocationDot } from "react-icons/fa6";
+import { NavLink } from 'react-router-dom';
+
 
 interface User {
   name: string;
@@ -177,6 +180,7 @@ const SideDrawer = () => {
                 </a>
               </ProfileModal>
             </li>
+            <li><NavLink to="/location">Owner <FaLocationDot/></NavLink></li>
             <li><a onClick={logoutHandler}>Logout</a></li>
           </ul>
         </div>

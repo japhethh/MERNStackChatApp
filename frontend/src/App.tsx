@@ -6,6 +6,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import NotFound from "./pages/NotFound";
 import { useContext, useEffect, useState } from "react";
 import { ChatContext } from "./context/ChatProvider";
+import Location from "./components/Location";
 
 const App = () => {
   const context = useContext(ChatContext);
@@ -20,14 +21,19 @@ const App = () => {
 
     const { user } = context;
 
-       if (user?.token) {
-      if (location.pathname === "/login") {
-        navigate("/", { replace: true });
-      }
-    } else {
-      if (location.pathname !== "/login") {
-        navigate("/login", { replace: true });
-      }
+    // if (user?.token) {
+    //   if (location.pathname === "/login") {
+    //     navigate("/");
+    //   }
+    // } else {
+    //   if (location.pathname !== "/login") {
+    //     navigate("/login");
+    //   }
+    // }
+
+    // Automatically redirect from login to home if the user is logged in
+    if (user?.token && location.pathname === "/login") {
+      navigate("/");
     }
 
     // Mark the loading as complete
@@ -46,6 +52,7 @@ const App = () => {
         <Route path="/login" element={<HomePage />} />
         <Route path="/" element={<ChatPage />} />
         <Route path="*" element={<NotFound />} />
+        <Route path="/location" element={<Location />}></Route>
       </Routes>
     </div>
   );
