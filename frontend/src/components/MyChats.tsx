@@ -76,16 +76,19 @@ const MyChats = ({ fetchAgain }: any) => {
             {chats.map((chat: any) => (
               <div
                 className={`cursor-pointer py-2 px-3 rounded-lg ${selectedChat?._id === chat
-                  ._id ? "bg-teal-500 text-white" : "bg-gray-200 text-black"
+                  ._id ? "bg-[#376FFA] text-white" : "bg-gray-200 text-black"
                   }`} // Conditional class for selected chat
                 key={chat._id}
                 onClick={() => setSelectedChat(chat)}
               >
-                <div>
+                <div className="font-semibold">
                   {!chat.isGroupChat
                     ? genSender(loggedUser, chat.users) // Display sender name if not group chat
                     : chat.chatName // Display chat name if group chat
                   }
+                </div>
+                <div className={`${selectedChat?._id === chat._id ? "text-base-200" : "text-[#18181B]"} font-thin `}>
+                  {chat.latestMessage?.content}
                 </div>
               </div>
             ))}
