@@ -38,19 +38,19 @@ app.use("/api/user", userRouter);
 app.use("/api/chat", chatRouter);
 app.use("/api/message", messageRouter);
 
-const _disname1 = path.resolve();
-if (process.env.NODE_ENV === "production") {
-  app.use(express.static(path.join(_disname1, "/frontend/build")));
+// const _disname1 = path.resolve();
+// if (process.env.NODE_ENV === "production") {
+//   app.use(express.static(path.join(_disname1, "/frontend/build")));
 
-  app.get("*", (req, res) => {
-    res.sendFile(path.resolve(__dirname1, "frontent", "dist", "index.html"));
-  });
-} else {
-  app.use("/", (req, res) => {
-    res.send("API is Running Successfully");
-  });
-}
+//   app.get("*", (req, res) => {
+//     res.sendFile(path.resolve(__dirname1, "frontent", "dist", "index.html"));
+//   });
+// } else {
+// }
 
+app.use("/", (req, res) => {
+  res.send("API is Running Successfully");
+});
 app.use(notFound);
 app.use(errorHandler);
 // Start the HTTP server on the specified PORT and log a message when it's ready.
