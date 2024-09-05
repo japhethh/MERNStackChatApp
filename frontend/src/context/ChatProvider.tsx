@@ -40,7 +40,6 @@ const ChatProvider = ({ children }: Props) => {
     const userInfo = localStorage.getItem('userInfo');
     if (userInfo) {
       setUser(JSON.parse(userInfo));
-       
     } else {
       navigate('/login');
     }
