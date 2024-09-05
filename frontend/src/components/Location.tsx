@@ -1,7 +1,6 @@
 import { IoMdArrowBack } from "react-icons/io";
-import { NavLink, useNavigate } from 'react-router-dom';
+import {  useNavigate } from 'react-router-dom';
 const Location = () => {
-  const navigate = useNavigate();
 
 
   const handleGoBack = () =>{
